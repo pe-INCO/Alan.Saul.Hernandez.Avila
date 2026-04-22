@@ -7,46 +7,74 @@
 
 #include <stdio.h>
 
-int main(void)
+#define ESTUDIANTES 3
+#define MATERIAS 4
 
+int main(void)
 {
-    // Definimos constantes para las dimensiones
-    const int ESTUDIANTES = 3;
-    const int MATERIAS = 4;
+    float notas[ESTUDIANTES][MATERIAS];
+    float suma_estudiante, suma_materia;
+    float nota_maxima;
+    int fila_max, col_max;
     
-    // Declaramos la matriz de números reales
-    float notas[ESTUDIANTES] [MATERIAS];
-    int i, j;
-    
-    printf("=== Registro de Notas (Matriz 3x4) ===\n");
-    
-    // Bloque de entrada de datos
-    for (i = 0; i < ESTUDIANTES; i++) {
-        printf("\nNotas para el Estudiante #%d:\n", i + 1);
-        for (j = 0; j < MATERIAS; j++) {
-            printf("  Materia %d: ", j + 1);
-            // Leemos el valor real y lo guardamos en la dirección de memoria
+    //  Ingresar notas
+    printf(" Ingreso de Calificaciones \n");
+    for (int i = 0; i < ESTUDIANTES; i++) {
+        for (int j = 0; j < MATERIAS; j++) {
+            printf("Estudiante %d, Materia %d: ", i + 1, j + 1);
             scanf("%f", &notas[i][j]);
-        }
-    }
-    
-    // Bloque de salida de datos (Mostrar la matriz)
-    printf("MATRIZ COMPLETA DE NOTAS\n");
-    
-    // Encabezados de columnas
-    printf("            ");
-    for (j = 0; j < MATERIAS; j++) {
-        printf("Mat %d     ", j + 1);
-    }
-    
-    for (i = 0; i < ESTUDIANTES; i++) {
-        printf("Est. %d |  ", i + 1);
-        for (j = 0; j < MATERIAS; j++) {
-            // %8.2f reserva 8 espacios y muestra 2 decimales para alinear
-            printf("%8.2f  ", notas[i][j]);
         }
         printf("\n");
     }
     
+    //  Mostrar la matriz completa
+    printf("\n Matriz de Notas \n");
+    for (int i = 0; i < ESTUDIANTES; i++) {
+        for (int j = 0; j < MATERIAS; j++) {
+            printf("%.2f\t", notas[i][j]);
+        }
+        printf("\n");
+    }
+    
+    //  Calcular y mostrar el promedio de cada estudiante (por fila)
+    printf("\n Promedios por Estudiante \n");
+    for (int i = 0; i < ESTUDIANTES; i++) {
+        suma_estudiante = 0;
+        for (int j = 0; j < MATERIAS; j++) {
+            suma_estudiante += notas[i][j];
+        }
+        printf("Estudiante %d: %.2f\n", i + 1, suma_estudiante / MATERIAS);
+    }
+    
+    //  Calcular y mostrar el promedio de cada materia (por columna)
+    printf("\n Promedios por Materia \n");
+    for (int j = 0; j < MATERIAS; j++) {
+        suma_materia = 0;
+        for (int i = 0; i < ESTUDIANTES; i++) {
+            suma_materia += notas[i][j];
+        }
+        printf("Materia %d: %.2f\n", j + 1, suma_materia / ESTUDIANTES);
+    }
+    
+    //  Encontrar la nota más alta y su posición
+    nota_maxima = notas[0][0];
+    fila_max = 0;
+    col_max = 0;
+    
+    for (int i = 0; i < ESTUDIANTES; i++) {
+        for (int j = 0; j < MATERIAS; j++) {
+            if (notas[i][j] > nota_maxima) {
+                nota_maxima = notas[i][j];
+                fila_max = i;
+                col_max = j;
+            }
+        }
+    }
+    
+    printf("\n Nota Mas Alta \n");
+    printf("La nota mas alta es %.2f (Estudiante %d, Materia %d)\n",
+           nota_maxima, fila_max + 1, col_max + 1);
+    
     return 0;
+    
 }
